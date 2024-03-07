@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HD_IMAGE_CDN_URL } from "../utils/constants";
 import { addPlayTrailer } from "../utils/movieSlice";
-import LoadingShimmer from "./LoadingShimmer";
 
 const DetailCard = () => {
   const detail = useSelector((store) => store.movies.movieDetail);

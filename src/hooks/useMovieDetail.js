@@ -13,7 +13,7 @@ const useMovieDetail = (movieId) => {
       options
     );
     const json = await data.json();
-    console.log(json);
+
     dispatch(addMovieDetail(json));
   };
 

@@ -11,7 +11,7 @@ import { auth } from "../utils/firebase";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { USER_AVATAR } from "../utils/constants";
+import { OPENAI_KEY, USER_AVATAR } from "../utils/constants";
 import { toggleShowPassword } from "../utils/gptSlice";
 
 const Login = () => {
@@ -19,7 +19,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const passwordToggler = useSelector((store) => store.gpt.showPassword);
   const dispatch = useDispatch();
-
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);

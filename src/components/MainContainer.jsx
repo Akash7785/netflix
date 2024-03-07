@@ -1,13 +1,16 @@
 import React from "react";
 import VideoTitle from "./VideoTitle";
 import VideoBackground from "./VideoBackground";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeMovieDetail } from "../utils/movieSlice";
 
 const MainContainer = () => {
   const movies = useSelector((store) => store.movies.nowPlayingMovies);
+  const dispatch = useDispatch();
+  dispatch(removeMovieDetail());
 
   if (!movies) return;
-  const mainMovie = movies[3];
+  const mainMovie = movies[18];
 
   const { original_title, overview, id } = mainMovie;
 

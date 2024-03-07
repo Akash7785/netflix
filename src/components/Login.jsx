@@ -9,19 +9,27 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { USER_AVATAR } from "../utils/constants";
+import { toggleShowPassword } from "../utils/gptSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const passwordToggler = useSelector((store) => store.gpt.showPassword);
+  const dispatch = useDispatch();
 
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
 
-  const dispatch = useDispatch();
+  const togglePassword = () => {
+    dispatch(toggleShowPassword());
+    passwordToggler
+      ? (password.current.attributes[1].nodeValue = "password")
+      : (password.current.attributes[1].nodeValue = "text");
+  };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -94,15 +102,21 @@ const Login = () => {
     <div>
       <Header />
       <div className="absolute">
-        <img src={backgroundImage} alt="logo" />
+        <img
+          className=" max-sm:h-[100vh] object-cover"
+          src={backgroundImage}
+          alt="logo"
+        />
       </div>
 
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0  rounded-md bg-opacity-80 "
+        className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0  rounded-md bg-opacity-80  max-sm:w-[80vw]  "
       >
         {isSignInForm ? (
-          <h1 className="p-1 mb-4 text-white font-bold text-3xl">Sign In</h1>
+          <h1 className="p-1 mb-4 text-white font-bold text-3xl  max-sm:text-center">
+            Sign In
+          </h1>
         ) : (
           <>
             <h1 className="p-1 mb-4 text-white font-bold text-3xl">Sign Up</h1>
@@ -111,6 +125,7 @@ const Login = () => {
               className="border w-full bg-gray-300 border-black m-2 p-2 rounded-md "
               type="text"
               placeholder="Enter Name"
+              autoComplete="username"
             />
           </>
         )}
@@ -119,14 +134,26 @@ const Login = () => {
           className="border w-full bg-gray-300 border-black m-2 p-2 rounded-md"
           type="text"
           placeholder="Enter Email"
+          autoComplete="email"
         />
-        <input
-          ref={password}
-          className="border w-full bg-gray-300 border-black m-2 p-2 rounded-md"
-          type="password"
-          placeholder="Enter Password"
-          autoComplete="current-password"
-        />
+
+        <div className="relative w-full">
+          <input
+            ref={password}
+            className="border w-full bg-gray-300 border-black m-2 p-2 rounded-md"
+            type="password"
+            placeholder="Enter Password"
+            autoComplete="current-password"
+          />
+          <button
+            type="button"
+            className="absolute inset-y-0 end-0 flex items-center pe-3"
+            onClick={togglePassword}
+          >
+            <i className="bx bx-low-vision"></i>
+          </button>
+        </div>
+
         <p className="font-bold text-red-500 p-2">{errorMessage}</p>
         <button
           onClick={handleButtonClick}

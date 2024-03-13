@@ -10,7 +10,7 @@ const MainContainer = () => {
   dispatch(removeMovieDetail());
 
   if (!movies) return;
-  const mainMovie = movies[12];
+  const mainMovie = movies[3];
 
   const { original_title, overview, id } = mainMovie;
 
